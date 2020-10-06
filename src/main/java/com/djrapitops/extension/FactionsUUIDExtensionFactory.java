@@ -24,7 +24,6 @@ package com.djrapitops.extension;
 
 import com.djrapitops.plan.extension.Caller;
 import com.djrapitops.plan.extension.DataExtension;
-import jdk.vm.ci.code.site.Call;
 
 import java.util.Optional;
 
