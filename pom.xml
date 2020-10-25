@@ -6,7 +6,7 @@
 
     <groupId>com.djrapitops</groupId>
     <artifactId>Extension-FactionsUUID</artifactId>
-    <version>1.6.9.5-U0.5.16-R0.1</version>
+    <version>1.6.9.5-U0.5.16-R0.2</version>
     <build>
         <plugins>
             <plugin>

@@ -25,7 +25,10 @@ package com.djrapitops.extension;
 
 import com.djrapitops.plan.extension.Caller;
 import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.event.*;
+import com.massivecraft.factions.event.FPlayerJoinEvent;
+import com.massivecraft.factions.event.FPlayerLeaveEvent;
+import com.massivecraft.factions.event.FactionCreateEvent;
+import com.massivecraft.factions.event.FactionDisbandEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -63,11 +66,6 @@ public class FactionsUUIDListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onFactionDisband(FactionDisbandEvent event) {
-        event.getFaction().getFPlayers().forEach(this::updateFPlayer);
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onFactionAutoDisband(FactionAutoDisbandEvent event) {
         event.getFaction().getFPlayers().forEach(this::updateFPlayer);
     }
 
