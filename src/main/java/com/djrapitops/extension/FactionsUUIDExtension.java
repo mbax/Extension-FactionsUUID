@@ -36,6 +36,7 @@ import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.factions.perms.Relation;
 import com.massivecraft.factions.perms.Role;
 import com.massivecraft.factions.util.TL;
+import com.djrapitops.plan.extension.NotReadyException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
