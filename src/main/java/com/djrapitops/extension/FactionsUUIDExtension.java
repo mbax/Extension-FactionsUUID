@@ -150,7 +150,7 @@ public class FactionsUUIDExtension implements DataExtension {
             try {
                 return ((TL) getTranslation.invoke(getFPlayer(playerUUID))).format(); // FUUID prior to 0.5.25, and forks.
             } catch (IllegalAccessException | InvocationTargetException ignored) {
-                return ""; // Shouldn't be possible to get here.
+                throw new NotReadyException();
             }
         }
     }
