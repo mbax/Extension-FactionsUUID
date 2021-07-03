@@ -35,7 +35,10 @@ import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.factions.perms.Relation;
 import com.massivecraft.factions.perms.Role;
+import com.massivecraft.factions.util.TL;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,7 +50,19 @@ import java.util.UUID;
 @PluginInfo(name = "FactionsUUID", iconName = "map", iconFamily = Family.SOLID, color = Color.GREEN)
 public class FactionsUUIDExtension implements DataExtension {
 
+    private final Method getTranslation;
+
     public FactionsUUIDExtension() {
+        try {
+            Method methodGetTranslation = Role.class.getMethod("getTranslation");
+            if (String.class.equals(methodGetTranslation.getReturnType())) { // FUUID 0.5.25+
+                this.getTranslation = null;
+            } else { // FUUID prior to 0.5.25, and forks.
+                this.getTranslation = methodGetTranslation;
+            }
+        } catch (NoSuchMethodException e) { // What? How?
+            throw new IllegalStateException("Found an unsupported FactionsUUID variant", e);
+        }
     }
 
     private FPlayer getFPlayer(UUID playerUUID) {
@@ -127,8 +142,16 @@ public class FactionsUUIDExtension implements DataExtension {
     )
     @Conditional("hasFaction")
     public String role(UUID playerUUID) {
-        return getFPlayer(playerUUID)
-                .getRole().getTranslation().format();
+        if (getTranslation == null) { // FUUID 0.5.25+
+            return getFPlayer(playerUUID)
+                    .getRole().getTranslation();
+        } else {
+            try {
+                return ((TL) getTranslation.invoke(getFPlayer(playerUUID))).format(); // FUUID prior to 0.5.25, and forks.
+            } catch (IllegalAccessException | InvocationTargetException ignored) {
+                return ""; // Shouldn't be possible to get here.
+            }
+        }
     }
 
     // Faction data
